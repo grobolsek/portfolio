@@ -1,0 +1,14 @@
+# Publish through a Cloudflare Tunnel: docker compose -f docker-compose.yml -f docker-compose.tunnel.yml up -d --build
+# cloudflared dials out to Cloudflare, which serves grobolsek.com over HTTPS; no port is opened on this machine.
+# In the tunnel's Public Hostname settings, point grobolsek.com at  HTTP  frontend:80
+services:
+  frontend:
+    ports: !reset []
+
+  cloudflared:
+    image: cloudflare/cloudflared:2026.11.0
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN:?set TUNNEL_TOKEN in .env (Cloudflare Zero Trust > Networks > Tunnels)}
+    depends_on: [frontend]

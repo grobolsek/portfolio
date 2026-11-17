@@ -1,0 +1,12 @@
+node_modules/
+dist/
+dist-ssr/
+.env
+.taste-skill/
+shots/
+
+# private notes (phone number, an Overleaf edit link)
+info.txt
+
+# original photos (the site uses the converted copies in frontend/public/img)
+images/

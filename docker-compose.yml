@@ -1,0 +1,7 @@
+services:
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    # this machine only: the tunnel (or Caddy) is what the internet talks to
+    ports:
+      - "127.0.0.1:${PORT:-8080}:80"
