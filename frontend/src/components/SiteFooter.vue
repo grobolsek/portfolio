@@ -23,7 +23,7 @@ const year = new Date().getFullYear()
         <div class="grid">
           <div class="span-4 stack-4">
             <a class="nav__logo" href="#top"><span class="mark" data-mark="stack" aria-hidden="true"></span>{{ person.name }}</a>
-            <p class="footer__lede">Computer science student and developer in Ljubljana.</p>
+            <p class="footer__lede">Computer science student and developer.</p>
           </div>
           <div class="span-2 footer__col">
             <h3>Contact</h3>

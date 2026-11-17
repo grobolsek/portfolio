@@ -1,94 +1,140 @@
 <!doctype html>
 <html lang="en" data-type="service" data-radius="round" data-buttons="solid" data-motion>
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Matic Grobolšek: computer science student and developer in Ljubljana</title>
-<meta name="description" content="Projects, skills and work of a CS student at the University of Ljubljana who builds web and command-line apps.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Matic Grobolšek: computer science student and developer in Ljubljana">
-<meta property="og:description" content="Web and command-line apps, open source and minimal design.">
-<meta property="og:url" content="https://grobolsek.com/">
-<meta property="og:image" content="https://grobolsek.com/share.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta name="theme-color" content="#08101b">
-<link rel="canonical" href="https://grobolsek.com/">
-<meta name="site-kind" content="other">
-<meta name="page-type" content="service">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Matic Grobolšek: computer science student and developer</title>
+  <meta name="description"
+    content="Projects, skills and work of a CS student at the University of Ljubljana who builds web and command-line apps.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Matic Grobolšek: computer science student and developer in Ljubljana">
+  <meta property="og:description" content="Web and command-line apps, open source and minimal design.">
+  <meta property="og:url" content="https://grobolsek.com/">
+  <meta property="og:image" content="https://grobolsek.com/share.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta name="theme-color" content="#08101b">
+  <link rel="canonical" href="https://grobolsek.com/">
+  <meta name="site-kind" content="other">
+  <meta name="page-type" content="service">
 
-<!-- The colour theme, before the first paint: the visitor's own choice if they made one (localStorage "theme"),
+  <!-- The colour theme, before the first paint: the visitor's own choice if they made one (localStorage "theme"),
      else the system's, which it keeps following. ThemeToggle.vue changes it. -->
-<script>
-(function () {
-  var root = document.documentElement, media = matchMedia('(prefers-color-scheme: dark)');
-  function stored() { try { return localStorage.getItem('theme'); } catch (e) { return null; } }
-  function apply(theme) {
-    root.dataset.theme = theme;
-    var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = theme === 'dark' ? '#08101b' : '#fbf9f1';
-  }
-  var s = stored();
-  apply(s === 'light' || s === 'dark' ? s : (media.matches ? 'dark' : 'light'));
-  media.addEventListener('change', function (e) { if (!stored()) apply(e.matches ? 'dark' : 'light'); });
-  window.__theme = { apply: apply, system: function () { return media.matches ? 'dark' : 'light'; } };
-})();
-</script>
+  <script>
+    (function () {
+      var root = document.documentElement, media = matchMedia('(prefers-color-scheme: dark)');
+      function stored() {try {return localStorage.getItem('theme');} catch (e) {return null;} }
+      function apply(theme) {
+        root.dataset.theme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.content = theme === 'dark' ? '#08101b' : '#fbf9f1';
+      }
+      var s = stored();
+      apply(s === 'light' || s === 'dark' ? s : (media.matches ? 'dark' : 'light'));
+      media.addEventListener('change', function (e) {if (!stored()) apply(e.matches ? 'dark' : 'light');});
+      window.__theme = {apply: apply, system: function () {return media.matches ? 'dark' : 'light';}};
+    })();
+  </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400..600&family=Figtree:wght@400..600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/kit/system.css">
-<link rel="stylesheet" href="/kit/ui/cards.css">
-<link rel="stylesheet" href="/kit/motion/motion.css">
-<link rel="stylesheet" href="/kit/layout/layout.css">
-<link rel="stylesheet" href="/kit/icons/icon.css">
-<!-- Palette: navy, cream, warm grey and peach (the owner's reference: 10years.pixelmatters.com), checked with
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400..600&family=Figtree:wght@400..600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/kit/system.css">
+  <link rel="stylesheet" href="/kit/ui/cards.css">
+  <link rel="stylesheet" href="/kit/motion/motion.css">
+  <link rel="stylesheet" href="/kit/layout/layout.css">
+  <link rel="stylesheet" href="/kit/icons/icon.css">
+  <!-- Palette: navy, cream, warm grey and peach (the owner's reference: 10years.pixelmatters.com), checked with
      start.mjs brand; type: the catalogue's sora pairing (Sora / Figtree), the wide geometric face the reference
      asks for. Dark is the main look; light is the same palette turned over. -->
-<style>
-:root {
-  --p-bg: #fbf9f1; --p-surface: #f1eee2; --p-ink: #08101b; --p-muted: #5d5b54;
-  --p-accent: #a85a12; --p-accent-ink: #fbf9f1; --p-action: #a85a12; --p-action-ink: #fbf9f1;
-  --p-inv-bg: #08101b; --p-inv-surface: #151d28; --p-inv-ink: #fbf9f1; --p-inv-muted: #949798;
-  --p-inv-accent: #ffc886; --p-inv-accent-ink: #08101b; --p-inv-action: #ffc886; --p-inv-action-ink: #08101b;
-  --font-display: "Sora", system-ui, sans-serif;
-  --font-text: "Figtree", system-ui, sans-serif;
-  --display-weight: 400;
-  --display-tracking: -0.035em;
-  --display-tracking-xl: -0.045em;
-  --ly-scale: 0.9;
-}
-:root[data-theme="dark"] {
-  --p-bg: #08101b; --p-surface: #121b27; --p-ink: #fffdee; --p-muted: #aeaca4;
-  --p-accent: #ffc886; --p-accent-ink: #08101b; --p-action: #ffc886; --p-action-ink: #08101b;
-  --p-inv-bg: #fffdee; --p-inv-surface: #ebeadd; --p-inv-ink: #08101b; --p-inv-muted: #595f63;
-  --p-inv-accent: #08101b; --p-inv-accent-ink: #fffdee; --p-inv-action: #08101b; --p-inv-action-ink: #fffdee;
-  color-scheme: dark;
-}
-/* the same for a visitor without script */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
-    --p-bg: #08101b; --p-surface: #121b27; --p-ink: #fffdee; --p-muted: #aeaca4;
-    --p-accent: #ffc886; --p-accent-ink: #08101b; --p-action: #ffc886; --p-action-ink: #08101b;
-    --p-inv-bg: #fffdee; --p-inv-surface: #ebeadd; --p-inv-ink: #08101b; --p-inv-muted: #595f63;
-    --p-inv-accent: #08101b; --p-inv-accent-ink: #fffdee; --p-inv-action: #08101b; --p-inv-action-ink: #fffdee;
-    color-scheme: dark;
-  }
-}
-:root[data-theme="light"] { color-scheme: light; }
-</style>
-<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+  <style>
+    :root {
+      --p-bg: #fbf9f1;
+      --p-surface: #f1eee2;
+      --p-ink: #08101b;
+      --p-muted: #5d5b54;
+      --p-accent: #a85a12;
+      --p-accent-ink: #fbf9f1;
+      --p-action: #a85a12;
+      --p-action-ink: #fbf9f1;
+      --p-inv-bg: #08101b;
+      --p-inv-surface: #151d28;
+      --p-inv-ink: #fbf9f1;
+      --p-inv-muted: #949798;
+      --p-inv-accent: #ffc886;
+      --p-inv-accent-ink: #08101b;
+      --p-inv-action: #ffc886;
+      --p-inv-action-ink: #08101b;
+      --font-display: "Sora", system-ui, sans-serif;
+      --font-text: "Figtree", system-ui, sans-serif;
+      --display-weight: 400;
+      --display-tracking: -0.035em;
+      --display-tracking-xl: -0.045em;
+      --ly-scale: 0.9;
+    }
+
+    :root[data-theme="dark"] {
+      --p-bg: #08101b;
+      --p-surface: #121b27;
+      --p-ink: #fffdee;
+      --p-muted: #aeaca4;
+      --p-accent: #ffc886;
+      --p-accent-ink: #08101b;
+      --p-action: #ffc886;
+      --p-action-ink: #08101b;
+      --p-inv-bg: #fffdee;
+      --p-inv-surface: #ebeadd;
+      --p-inv-ink: #08101b;
+      --p-inv-muted: #595f63;
+      --p-inv-accent: #08101b;
+      --p-inv-accent-ink: #fffdee;
+      --p-inv-action: #08101b;
+      --p-inv-action-ink: #fffdee;
+      color-scheme: dark;
+    }
+
+    /* the same for a visitor without script */
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --p-bg: #08101b;
+        --p-surface: #121b27;
+        --p-ink: #fffdee;
+        --p-muted: #aeaca4;
+        --p-accent: #ffc886;
+        --p-accent-ink: #08101b;
+        --p-action: #ffc886;
+        --p-action-ink: #08101b;
+        --p-inv-bg: #fffdee;
+        --p-inv-surface: #ebeadd;
+        --p-inv-ink: #08101b;
+        --p-inv-muted: #595f63;
+        --p-inv-accent: #08101b;
+        --p-inv-accent-ink: #fffdee;
+        --p-inv-action: #08101b;
+        --p-inv-action-ink: #fffdee;
+        color-scheme: dark;
+      }
+    }
+
+    :root[data-theme="light"] {
+      color-scheme: light;
+    }
+  </style>
+  <script>document.documentElement.classList.add('m-enter'); setTimeout(() => document.documentElement.classList.add('m-enter-done'), 700)</script>
 </head>
 <!-- type: service (a person who is hired); site-kind other. Look: the owner's reference (navy and cream, glass
      containers, orbs, tilted and offset pieces, pictures that fade into the ground), which overrides the kit's
      no-tilt, equal-edge and one-screen rules where they meet. -->
+
 <body>
-<div id="app"></div>
-<!-- Vue renders the page first; module scripts run in this order, so the kit's scripts find the finished DOM -->
-<script type="module" src="/src/main.js"></script>
-<script type="module" src="/kit/system.js"></script>
-<script type="module" src="/kit/motion/motion.js"></script>
-<script type="module" src="/kit/layout/layout.js"></script>
+  <div id="app"></div>
+  <!-- Vue renders the page first; module scripts run in this order, so the kit's scripts find the finished DOM -->
+  <script type="module" src="/src/main.js"></script>
+  <script type="module" src="/kit/system.js"></script>
+  <script type="module" src="/kit/motion/motion.js"></script>
+  <script type="module" src="/kit/layout/layout.js"></script>
 </body>
+
 </html>
