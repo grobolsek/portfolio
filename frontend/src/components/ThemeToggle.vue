@@ -42,6 +42,8 @@ function toggle(event) {
   <button class="theme-toggle" type="button" aria-label="Dark mode" :aria-pressed="dark ? 'true' : 'false'" @click="toggle">
     <Moon class="theme-toggle__moon" :size="18" :stroke-width="1.75" aria-hidden="true" />
     <Sun class="theme-toggle__sun" :size="18" :stroke-width="1.75" aria-hidden="true" />
-    <span class="theme-toggle__label" aria-hidden="true">Dark mode</span>
+    <!-- shown in the phone menu: what a tap switches to -->
+    <span class="theme-toggle__label theme-toggle__label--to-dark" aria-hidden="true">Dark mode</span>
+    <span class="theme-toggle__label theme-toggle__label--to-light" aria-hidden="true">Light mode</span>
   </button>
 </template>

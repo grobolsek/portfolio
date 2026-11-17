@@ -68,6 +68,7 @@ footer.footer.closing > .wrap { grid-template-rows: auto auto; }
 .orb--orange { background: #ff7a00; }
 .orb--yellow { background: #ffd600; }
 .orb--green { background: #00d26a; }
+.orb--purple { background: #9b4dff; } /* the owner's choice for education (the kit avoids violet; this one is asked for) */
 @media (prefers-reduced-motion: no-preference) {
   .orb { animation: orb-drift 18s ease-in-out infinite alternate; }
   .orb:nth-child(2n) { animation-duration: 23s; animation-direction: alternate-reverse; }
@@ -126,13 +127,17 @@ html[data-buttons] .btn.btn--secondary:hover { border-color: color-mix(in oklab,
   -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%); mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
 }
 .ph--phone .ph__glow { inset: 10% 26% -4%; width: 48%; opacity: .5; }
+/* the phone's bezel and corners scale with the slot (cqh: a share of its height), so a small phone on a
+   small screen keeps a thin frame and gentle corners: 5px and 26px at desktop size, about 3px and 15px on a phone */
+.ph--phone .ph__stage { container-type: size; }
 .ph__phone {
+  --bezel: max(2px, 1.6cqh); --corner: 8.6cqh;
   position: absolute; left: 50%; top: 7%; height: 122%; aspect-ratio: var(--shot, 9 / 18);
-  translate: -50% 0; rotate: -5deg; padding: 5px; border-radius: 26px; background: #0b0f14;
+  translate: -50% 0; rotate: -5deg; padding: var(--bezel); border-radius: var(--corner); background: #0b0f14;
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / .14), 0 24px 48px -20px rgb(0 0 0 / .55);
   transition: rotate 450ms var(--ease), translate 450ms var(--ease);
 }
-.ph__phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 21px; }
+.ph__phone img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: calc(var(--corner) - var(--bezel)); }
 .ph--phone:hover .ph__phone { rotate: -2deg; translate: -50% -3%; }
 
 /* pixel art: big and sharp on a grey stage */
@@ -281,18 +286,20 @@ main > section.hero.hx > .wrap { display: block; height: auto; }
 .proj > .dd:last-child { border-bottom: 0; }
 .proj .dd__head {
   display: grid; align-items: center; column-gap: var(--s-5);
-  grid-template-columns: 2.5ch minmax(0, 4fr) minmax(0, 5fr) 136px 20px;
+  /* --icons-w: as wide as the project with the most logos (ProjectsSection.vue) */
+  grid-template-columns: 2.5ch minmax(0, 4fr) minmax(0, 5fr) var(--icons-w, 136px) 20px;
   grid-template-areas: "num name line icons chev";
 }
 .proj__num { grid-area: num; font-size: var(--t-label); font-weight: 500; color: var(--accent); font-variant-numeric: tabular-nums; }
 .proj__name {
-  grid-area: name;
+  grid-area: name; min-width: 0; overflow-wrap: anywhere; /* a long one-word name breaks rather than run on */
   font: var(--display-weight) var(--t-h3)/1.15 var(--font-display); letter-spacing: var(--display-tracking);
   transition: transform var(--dur) var(--ease);
 }
 .dd__head:hover .proj__name { transform: translateX(4px); }
-.proj__line { grid-area: line; color: var(--muted); }
-.proj__icons { grid-area: icons; display: flex; justify-content: flex-end; }
+.proj__line { grid-area: line; min-width: 0; color: var(--muted); }
+.proj__icons { grid-area: icons; display: flex; justify-content: flex-end; min-width: 0; }
+.proj__icons .icon-row { flex-wrap: wrap; justify-content: flex-end; }
 .proj .dd__chev { grid-area: chev; margin-left: 0; }
 /* an opened project: the words left, its picture slot right */
 .proj__body {
@@ -365,8 +372,21 @@ main > section.hero.hx > .wrap { display: block; height: auto; }
 
 /* ---- Skills: bubbles in a row that open in place ---- */
 #skills .wrap { position: relative; }
-.sk__orb { width: 420px; right: -6%; top: -10%; opacity: calc(var(--orb-o) * .55); }
+.sk__orb { width: 420px; right: 8%; top: -10%; opacity: calc(var(--orb-o) * .55); }
 #skills .grid { position: relative; z-index: 1; }
+
+/* the same soft light behind the projects (blue, under the glass, which blurs it) and the work timeline (orange) */
+#projects .wrap, #work .wrap { position: relative; }
+.px__orb { width: 480px; left: -10%; top: 12%; opacity: calc(var(--orb-o) * .5); }
+.tl__orb { width: 440px; right: -6%; top: 18%; opacity: calc(var(--orb-o) * .45); }
+#projects :is(.sx-head, .proj), #work :is(.sx-head, .tl) { position: relative; z-index: 1; }
+/* education: a purple one a little under the heading, just right of where the word ends, behind the cards */
+#education .wrap { position: relative; }
+.edu__orb { width: 380px; left: 16%; top: 24%; opacity: calc(var(--orb-o) * .45); }
+#education .grid { position: relative; z-index: 1; }
+@media (max-width: 639px) {
+  .px__orb, .tl__orb, .edu__orb { width: 300px; }
+}
 .sk { display: grid; gap: var(--s-6); }
 .section-head .sk__legend { display: flex; align-items: center; gap: var(--s-2); margin-top: var(--s-3); font-size: var(--t-small); line-height: 1.4; color: var(--muted); }
 .sk__legend-chip { width: 26px; height: 14px; border: 1px dashed color-mix(in oklab, var(--ink) 45%, transparent); border-radius: 999px; }
@@ -463,7 +483,7 @@ html.vt-skills::view-transition-new(*) {
   position: absolute; top: 14px; left: -10px; z-index: 2; padding: 3px 12px; border-radius: 999px;
   font: 500 var(--t-label)/1.6 var(--font-text); rotate: -5deg; box-shadow: 0 8px 18px -8px rgb(0 0 0 / .45);
 }
-.tag--blue { background: #3c6bff; color: #ffffff; }
+.tag--blue { background: #2f5be0; color: #ffffff; } /* 5.7:1; the lighter #3c6bff gave white 4.4:1 */
 .tag--green { background: #3ddc84; color: #08101b; }
 .tag--orange { background: #ff8a3d; color: #08101b; }
 .ab__pic:nth-child(2) .tag { left: auto; right: -8px; rotate: 4deg; }
@@ -517,8 +537,70 @@ html.vt-skills::view-transition-new(*) {
 @media (min-width: 640px) and (max-width: 1023px) {
   .nav:not(.is-open) .nav__actions > .theme-toggle.theme-toggle { display: inline-grid; }
 }
-.nav.is-open .theme-toggle { display: flex; gap: var(--s-2); width: 100%; height: 48px; justify-content: center; align-items: center; }
-.nav.is-open .theme-toggle__label { display: inline; font-size: var(--t-body); font-weight: 500; }
+/* ---- The menu on a phone and a tablet (the kit's sheet, opened by system.js) ---- */
+@media (max-width: 1023px) {
+  /* the menu button matches the theme button beside it */
+  .nav__toggle { border-color: var(--glass-line); border-radius: 12px; background: var(--glass); }
+  /* open, the bar drops its blur: a blurred parent would hold the fixed sheet inside the 56px bar */
+  .nav.is-open { background: var(--bg); -webkit-backdrop-filter: none; backdrop-filter: none; }
+
+  /* the sheet: the hero's light behind big numbered words */
+  .nav.is-open .nav__links {
+    counter-reset: navi; padding: var(--s-6) var(--gut) 220px;
+    background:
+      radial-gradient(70% 45% at 0% 0%, rgb(60 107 255 / .16), transparent 70%),
+      radial-gradient(60% 40% at 100% 80%, rgb(255 122 0 / .13), transparent 70%),
+      var(--bg);
+  }
+  .nav.is-open .nav__item { counter-increment: navi; border-bottom: 1px solid var(--line); }
+  .nav.is-open .nav__link {
+    display: flex; align-items: center; gap: var(--s-4); height: 76px;
+    font: 500 clamp(28px, 8vw, 40px)/1 var(--font-display); letter-spacing: -0.035em; color: var(--ink);
+  }
+  .nav.is-open .nav__link::before {
+    content: counter(navi, decimal-leading-zero); display: inline-block; position: static; width: 2.4ch; height: auto;
+    transform: none; background: none; border-radius: 0;
+    font: 500 13px/1 var(--font-text); letter-spacing: 0; color: var(--accent);
+  }
+  .nav.is-open .nav__link::after {
+    content: "→"; position: static; margin-left: auto; width: auto; height: auto; background: none;
+    font: 400 22px/1 var(--font-text); color: var(--muted); transition: translate var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .nav.is-open .nav__link:is(:hover, :active)::after { translate: 4px 0; color: var(--ink); }
+
+  /* the words arrive one after another as the sheet opens */
+  @media (prefers-reduced-motion: no-preference) {
+    .nav.is-open .nav__item { animation: nav-in 420ms var(--ease) both; }
+    .nav.is-open .nav__item:nth-child(2) { animation-delay: 50ms; }
+    .nav.is-open .nav__item:nth-child(3) { animation-delay: 100ms; }
+    .nav.is-open .nav__item:nth-child(4) { animation-delay: 150ms; }
+    .nav.is-open .nav__actions { animation: nav-in 420ms var(--ease) 180ms both; }
+  }
+
+  /* the foot of the sheet: the theme and GitHub side by side, the main button under them */
+  .nav.is-open .nav__actions { grid-template-columns: 1fr 1fr; gap: var(--s-3); padding-top: var(--s-5); }
+  .nav.is-open .nav__actions > .theme-toggle,
+  .nav.is-open .nav__actions > .nav__link {
+    order: 1; display: flex; align-items: center; justify-content: center; gap: var(--s-2); width: 100%; height: 48px;
+    border: 1px solid var(--glass-line); border-radius: 12px; background: var(--glass); color: var(--ink);
+    font: 500 var(--t-body)/1 var(--font-text);
+  }
+  .nav.is-open .nav__actions > .nav__link::before,
+  .nav.is-open .nav__actions > .nav__link::after { display: none; }
+  .nav.is-open .nav__actions > .btn { order: 2; grid-column: 1 / -1; }
+  .nav.is-open .theme-toggle__label--to-dark { display: inline; }
+  :root[data-theme="dark"] .nav.is-open .theme-toggle__label--to-dark { display: none; }
+  :root[data-theme="dark"] .nav.is-open .theme-toggle__label--to-light { display: inline; }
+}
+@keyframes nav-in { from { opacity: 0; translate: 0 14px; } }
+/* the narrowest phones (320px): the name, the main button and the menu button do not fit in one bar, so the
+   bar keeps the name and the menu; Email me waits in the open menu */
+@media (max-width: 359px) {
+  .nav:not(.is-open) .nav__actions { display: none; }
+  /* as specific as the kit's rule that sets this margin to 0 (".nav__actions + .nav__toggle"), so the
+     menu button still goes to the right edge */
+  .nav:not(.is-open) .nav__actions + .nav__toggle { margin-left: auto; }
+}
 html.vt-theme::view-transition-old(root),
 html.vt-theme::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
 
@@ -530,7 +612,7 @@ html.vt-theme::view-transition-new(root) { animation: none; mix-blend-mode: norm
   .proj__media { max-width: 520px; }
   .proj .dd__head {
     row-gap: var(--s-1);
-    grid-template-columns: 2.5ch minmax(0, 1fr) 136px 20px;
+    grid-template-columns: 2.5ch minmax(0, 1fr) var(--icons-w, 136px) 20px;
     grid-template-areas: "num name icons chev" ". line line line";
   }
   .ab { grid-template-columns: minmax(0, 1fr); }
@@ -545,11 +627,14 @@ html.vt-theme::view-transition-new(root) { animation: none; mix-blend-mode: norm
   .hx__cards { grid-template-columns: minmax(0, 1fr); width: calc(100% - 16px); margin: -64px 8px 0 auto; gap: var(--s-5); }
   .dd__head { flex-wrap: wrap; gap: var(--s-2) var(--s-4); }
   .proj { padding: var(--s-1) var(--s-4); }
+  /* a phone: the name has the row to itself, the logos go under the line */
   .proj .dd__head {
-    column-gap: var(--s-3); row-gap: var(--s-1);
-    grid-template-columns: 2.5ch minmax(0, 1fr) auto 20px;
-    grid-template-areas: "num name icons chev" ". line line line";
+    column-gap: var(--s-3); row-gap: var(--s-2);
+    grid-template-columns: 2.5ch minmax(0, 1fr) 20px;
+    grid-template-areas: "num name chev" ". line line" ". icons icons";
   }
+  .proj__icons, .proj__icons .icon-row { justify-content: flex-start; }
+  .proj__icons:not(:has(.logo-disc)) { display: none; } /* no empty row for a project without logos */
   .proj__body { padding-left: calc(2.5ch + var(--s-3)); }
   .proj__body { grid-template-columns: minmax(0, 1fr); gap: var(--s-5); }
   .tl { padding-left: 24px; }

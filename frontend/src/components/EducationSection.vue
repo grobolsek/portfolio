@@ -9,6 +9,7 @@ import Photo from './Photo.vue'
 <template>
   <section class="section section--grow" id="education" aria-labelledby="education-h">
     <div class="wrap">
+      <span class="orb orb--purple edu__orb" aria-hidden="true"></span>
       <div class="grid grid--top">
         <div class="span-6">
           <div class="sx-head">

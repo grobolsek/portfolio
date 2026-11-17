@@ -11,6 +11,7 @@ const offsets = ['0px', '72px', '28px']
 <template>
   <section class="section section--grow" id="work" aria-labelledby="work-h">
     <div class="wrap">
+      <span class="orb orb--orange tl__orb" aria-hidden="true"></span>
       <div class="sx-head">
         <h2 id="work-h">Work experience</h2>
       </div>
